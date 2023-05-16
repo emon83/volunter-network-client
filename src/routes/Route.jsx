@@ -7,6 +7,8 @@ import Admin from "../Pages/Admin/Admin";
 import Donation from "../Pages/Donation/Donation";
 import Events from "../Pages/Events/Events";
 import Blog from "../Pages/Blog/Blog";
+import RegisterVolunteer from "../Pages/RegisterVolunteer/RegisterVolunteer";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
     {
@@ -20,6 +22,11 @@ const router = createBrowserRouter([
         {
             path: '/donation', 
             element: <Donation/>,
+        },
+        {
+            path: '/volunteer/:id', 
+            element: <PrivateRoute><RegisterVolunteer/></PrivateRoute>,
+            loader: ({params}) => fetch(`http://localhost:5000/volunteer/${params.id}`)
         },
         {
             path: '/events', 
@@ -39,7 +46,7 @@ const router = createBrowserRouter([
         },
         {
             path: '/admin', 
-            element: <Admin/>,
+            element: <PrivateRoute><Admin/></PrivateRoute>,
         },
       ]
     },

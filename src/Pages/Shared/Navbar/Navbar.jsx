@@ -1,13 +1,19 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
-import {
-  Bars3BottomRightIcon,
-  XMarkIcon,
-} from "@heroicons/react/24/solid";
-import logo from '../../../assets/logos/Group 1329.png'
+import { Bars3BottomRightIcon, XMarkIcon } from "@heroicons/react/24/solid";
+import logo from "../../../assets/logos/Group 1329.png";
+import { AuthContext } from "../../../providers/AuthProvider";
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user, logOut } = useContext(AuthContext);
+
+  const handleLogout = () => {
+    logOut()
+      .then(() => {})
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className="px-4 mx-6 py-5 md:mx-auto md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8">
       <div className="relative flex items-center justify-between">
@@ -50,11 +56,17 @@ const Navbar = () => {
               Blog
             </NavLink>
           </li>
-          <li>
-            <Link to="/signUp">
-              <button className="btn btn-primary btn-sm">Register</button>
-            </Link>
-          </li>
+          {user?.email ? (
+            <button onClick={handleLogout} className="btn btn-primary btn-sm">
+              Logout
+            </button>
+          ) : (
+            <li>
+              <Link to="/signUp">
+                <button className="btn btn-primary btn-sm">Register</button>
+              </Link>
+            </li>
+          )}
           <li>
             <Link to="/admin">
               <button className="btn btn-sm">Admin</button>
@@ -78,7 +90,7 @@ const Navbar = () => {
                 <div className="flex items-center justify-between mb-4">
                   <div>
                     <Link to="/" className="inline-flex items-center">
-                    <img className="h-10 w-32" src={logo} alt="" />
+                      <img className="h-10 w-32" src={logo} alt="" />
                     </Link>
                   </div>
                   {/* Dropdown menu close button */}
@@ -133,9 +145,7 @@ const Navbar = () => {
                     </li>
                     <li>
                       <Link to="/admin">
-                        <button className="btn -ml-1 btn-sm">
-                          Admin
-                        </button>
+                        <button className="btn -ml-1 btn-sm">Admin</button>
                       </Link>
                     </li>
                   </ul>
