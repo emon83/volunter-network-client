@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import './VolunteerCard.css'
 
 const VolunteerCard = ({volunteer}) => {
-    console.log(volunteer);
+    //console.log(volunteer);
     const {_id ,img, title} = volunteer;
     return (
         <div className="volunteer-card">

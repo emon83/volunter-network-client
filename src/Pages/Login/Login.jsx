@@ -7,7 +7,7 @@ import logo2 from '../../assets/logos/github.png'
 import './Login.css'
 
 const Login = () => {
-    const { signIn, googleSignIn } = useContext(AuthContext);
+    const { signIn, googleSignIn, githubSignIn } = useContext(AuthContext);
     const location = useLocation();
     const navigate = useNavigate(); 
 
@@ -34,8 +34,21 @@ const Login = () => {
     googleSignIn()
     .then(result => {
       console.log(result.user);
+      navigate(from, { replace: true });
     })
     .catch(error => console.log(error))
+  }
+
+  const handleGithubSignIn = () => {
+    githubSignIn()
+    .then(result => {
+      const logUser = result.user;
+      console.log(logUser);
+      navigate(from, { replace: true });
+    })
+    .catch(error => {
+        console.log(error);
+    })
   }
 
   return (
@@ -68,7 +81,7 @@ const Login = () => {
             <img className="w-8 h-8 ml-4" src={logo1} alt="" />
             <p className="mx-auto">Continue with Google</p>
         </div>
-        <div className="flex items-center social-login">
+        <div onClick={handleGithubSignIn} className="flex items-center social-login">
             <img className="w-8 h-8 ml-4" src={logo2} alt="" />
             <p className="mx-auto">Continue with Github</p>
         </div>
